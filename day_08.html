@@ -1,0 +1,1525 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Day_07 - Julia’s Symbolics: Computer Algebra System &#8212; My Jupyter Book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'day_08';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">My Jupyter Book</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Julia Learning Journey
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="learning-julia.html">Sharing my Julia learning journey</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_00.html">Day_00: Get set up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_01.html">Day_01 - Julia in the Jupyter notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_02.html">Day_02: a meta-Julia GitHub actions journey</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_03.html">Day_03: Dataframes and Plot Themes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_04.html">Day_04: Solving differential equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_05.html">Day_05: Building a pendulum solution (linear and nonlinear)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_06.html">Day_06: Chaos in Motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_07.html">Day_07 - Julia’s <code class="docutils literal notranslate"><span class="pre">Symbolics</span></code>: Computer Algebra System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="day_08-issues.html">Day_08: Filing and tracking issues in GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/day_08.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Day_07 - Julia’s Symbolics: Computer Algebra System</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-the-computer-do-the-hard-work">Let the computer do the hard work</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enter-computer-algebra-systems">Enter Computer Algebra Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#julia-s-cas-using-symbolics">Julia’s CAS <code class="docutils literal notranslate"><span class="pre">using</span> <span class="pre">Symbolics</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forming-lagrange-equations-in-julia-s-symbolics">Forming Lagrange equations in Julia’s <code class="docutils literal notranslate"><span class="pre">Symbolics</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-n-body-pendulum-kinetic-energy">The N-body pendulum kinetic energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-n-body-pendulum-potential-energy">The N-body pendulum potential energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-method-with-2-bodies">Verify the method with 2 bodies</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="day-07-julia-s-symbolics-computer-algebra-system">
+<h1>Day_07 - Julia’s <code class="docutils literal notranslate"><span class="pre">Symbolics</span></code>: Computer Algebra System<a class="headerlink" href="#day-07-julia-s-symbolics-computer-algebra-system" title="Link to this heading">#</a></h1>
+<section id="let-the-computer-do-the-hard-work">
+<h2>Let the computer do the hard work<a class="headerlink" href="#let-the-computer-do-the-hard-work" title="Link to this heading">#</a></h2>
+<p>The double-pendulum from <a class="reference internal" href="day_06.html"><span class="std std-doc">Day_06</span></a> was a great success. I got some experience building differential equations, pseudo-benchmarking some results, and building some excellent animations. One of the tough parts of physical simulations is getting all the math worked out correctly. Its satisfying to eliminate terms and come up with a final equation of motion, kind of like a Sudoku puzzle or Wordle game, but it takes time. When you start the next problem, you’re back to square one.</p>
+</section>
+<section id="enter-computer-algebra-systems">
+<h2>Enter <a class="reference external" href="https://en.wikipedia.org/wiki/Computer_algebra_system">Computer Algebra Systems</a><a class="headerlink" href="#enter-computer-algebra-systems" title="Link to this heading">#</a></h2>
+<p>Computer Algebra Systems (CAS) allow you to create objects that follow symbolic algebra, calculus, etc. I avoided CAS programs for years because it felt so difficult to get the equations back into a numerical form. As an engineer, I mostly deal with tables, fractions, percents, etc. I don’t always need or want an exact function. That’s why CFD, FEA, and multibody dynamics are so useful to engineers.</p>
+</section>
+<section id="julia-s-cas-using-symbolics">
+<h2>Julia’s CAS <code class="docutils literal notranslate"><span class="pre">using</span> <span class="pre">Symbolics</span></code><a class="headerlink" href="#julia-s-cas-using-symbolics" title="Link to this heading">#</a></h2>
+<p>There are some great examples on <a class="reference external" href="https://symbolics.juliasymbolics.org/stable/tutorials/symbolic_functions">Symbolics.jl documentation</a>. Here, I want to</p>
+<ol class="arabic simple">
+<li><p>build some simple sets of functions</p></li>
+<li><p>take some derivatives</p></li>
+<li><p>create a callable numerical function (not a CAS object)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Symbolics</span><span class="p">,</span><span class="w"> </span><span class="n">ModelingToolkit</span>
+<span class="nd">@variables</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">x₁</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="n">x₂</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="c">#&lt;------ &quot;vectorized variables, k[1], k[2]</span>
+<span class="nd">@parameters</span><span class="w"> </span><span class="n">k₁</span><span class="w"> </span><span class="n">k₂</span><span class="w"> </span><span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">ArgumentError</span>: Package ModelingToolkit not found in current path.
+<span class="o">-</span> <span class="n">Run</span> <span class="err">`</span><span class="kn">import</span> <span class="nn">Pkg</span><span class="p">;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;ModelingToolkit&quot;</span><span class="p">)</span><span class="err">`</span> <span class="n">to</span> <span class="n">install</span> <span class="n">the</span> <span class="n">ModelingToolkit</span> <span class="n">package</span><span class="o">.</span>
+
+<span class="ne">Stacktrace</span>:
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">macro</span> <span class="n">expansion</span>
+   <span class="o">@</span> <span class="o">./</span><span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">2223</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">macro</span> <span class="n">expansion</span>
+   <span class="o">@</span> <span class="o">./</span><span class="n">lock</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">273</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">__require</span><span class="p">(</span><span class="n">into</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">mod</span><span class="p">::</span><span class="n">Symbol</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">./</span><span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">2198</span>
+ <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="c1">#invoke_in_world#3</span>
+   <span class="o">@</span> <span class="o">./</span><span class="n">essentials</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1089</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="n">invoke_in_world</span>
+   <span class="o">@</span> <span class="o">./</span><span class="n">essentials</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1086</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">require</span><span class="p">(</span><span class="n">into</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">mod</span><span class="p">::</span><span class="n">Symbol</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">./</span><span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">2191</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x₁</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+\mathrm{x_1}\left( t \right)
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Differential</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(::Differential) (generic function with 2 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">x₁</span><span class="w"> </span><span class="n">x₂</span><span class="p">]</span>
+<span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">D</span><span class="p">(</span><span class="n">x₁</span><span class="p">),</span><span class="w"> </span><span class="n">D</span><span class="p">(</span><span class="n">x₂</span><span class="p">)]</span>
+<span class="n">ddx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">D</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="n">D</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">k₁</span><span class="w"> </span><span class="n">k₂</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+k_1 &amp; k_2 \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">dx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">dx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span>
+<span class="n">V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="c"># + x[1]^2 - 2*x[2]*x[1]) # &lt;----- input here</span>
+<span class="n">Lsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">V</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+ - 0.5 \left( \mathrm{x_1}\left( t \right) \right)^{2} k_1 - 0.5 \left(  - \mathrm{x_1}\left( t \right) + \mathrm{x_2}\left( t \right) \right)^{2} k_2 + 0.5 \left( \frac{dx_1(t)}{dt} \right)^{2} m + 0.5 \left( \frac{dx_2(t)}{dt} \right)^{2} m
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">d_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">Differential</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">xi</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">x</span><span class="p">]</span>
+<span class="n">d_dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">Differential</span><span class="p">(</span><span class="n">dxi</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">dxi</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">dx</span><span class="p">]</span>
+<span class="n">d_ddx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">Differential</span><span class="p">(</span><span class="n">ddxi</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">ddxi</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">ddx</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Differential}:
+ (::Differential) (generic function with 2 methods)
+ (::Differential) (generic function with 2 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">expand_derivatives</span><span class="p">(</span><span class="n">d_x</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="n">V</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+k_1 \mathrm{x_1}\left( t \right) + 0.5 k_2 \left( 2 \mathrm{x_1}\left( t \right) - 2 \mathrm{x_2}\left( t \right) \right)
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">expand_derivatives</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">d_dx</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="n">T</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+m \mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right)
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">lhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">expand_derivatives</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">d_dx</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">Lsum</span><span class="p">)))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">expand_derivatives</span><span class="p">(</span><span class="n">d_x</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">Lsum</span><span class="p">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)]</span>
+
+<span class="n">eoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lhs</span><span class="w"> </span><span class="o">.~</span><span class="w"> </span><span class="n">rhs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{align}
+m \mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right) =&amp;  - 0.5 k_2 \left( 2 \mathrm{x_1}\left( t \right) - 2 \mathrm{x_2}\left( t \right) \right) - k_1 \mathrm{x_1}\left( t \right) \\
+m \mathrm{\frac{d}{d t}}\left( \frac{dx_2(t)}{dt} \right) =&amp;  - 0.5 k_2 \left(  - 2 \mathrm{x_1}\left( t \right) + 2 \mathrm{x_2}\left( t \right) \right)
+\end{align}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">a_eoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">solve_for</span><span class="p">(</span><span class="n">eoms</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="o">.</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="n">a_eoms</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+\frac{k_1 \mathrm{x_1}\left( t \right) + 0.5 k_2 \left( 2 \mathrm{x_1}\left( t \right) - 2 \mathrm{x_2}\left( t \right) \right)}{ - m}
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@named</span><span class="w"> </span><span class="n">fol_separate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODESystem</span><span class="p">([</span><span class="n">ddx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">a_eoms</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">ddx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">a_eoms</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split} \begin{align}
+\mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right) =&amp; \frac{k_1 \mathrm{x_1}\left( t \right) + 0.5 k_2 \left( 2 \mathrm{x_1}\left( t \right) - 2 \mathrm{x_2}\left( t \right) \right)}{ - m} \\
+\mathrm{\frac{d}{d t}}\left( \frac{dx_2(t)}{dt} \right) =&amp; \frac{0.5 k_2 \left(  - 2 \mathrm{x_1}\left( t \right) + 2 \mathrm{x_2}\left( t \right) \right)}{ - m}
+\end{align}
+ \end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@named</span><span class="w"> </span><span class="n">fol_separate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODESystem</span><span class="p">([</span><span class="n">D</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">x₁</span><span class="p">))</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">-</span><span class="n">k₂</span><span class="o">*</span><span class="p">(</span><span class="n">x₁</span><span class="o">-</span><span class="n">x₂</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k₁</span><span class="o">*</span><span class="n">x₁</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">x₂</span><span class="p">))</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">k₂</span><span class="o">*</span><span class="p">(</span><span class="n">x₁</span><span class="o">-</span><span class="n">x₂</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split} \begin{align}
+\mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right) =&amp;  - k_2 \left(  - \mathrm{x_2}\left( t \right) + \mathrm{x_1}\left( t \right) \right) - k_1 \mathrm{x_1}\left( t \right) \\
+\mathrm{\frac{d}{d t}}\left( \frac{dx_2(t)}{dt} \right) =&amp; k_2 \left(  - \mathrm{x_2}\left( t \right) + \mathrm{x_1}\left( t \right) \right)
+\end{align}
+ \end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODEProblem</span><span class="p">(</span><span class="n">structural_simplify</span><span class="p">(</span><span class="n">fol_separate</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">x₁</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">x₂</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">(</span><span class="n">x₁</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">(</span><span class="n">x₂</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span>
+<span class="w">    </span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">15.0</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">k₁</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k₂</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">])</span>
+<span class="n">sol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">UndefVarError</span>: solve not defined
+
+<span class="ne">Stacktrace</span>:
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">31</span><span class="p">]:</span><span class="mi">3</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="nb">eval</span>
+   <span class="o">@</span> <span class="o">./</span><span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">368</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">./</span><span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1428</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span><span class="p">,</span><span class="w"> </span><span class="n">DifferentialEquations</span><span class="p">,</span><span class="w"> </span><span class="n">LaTeXStrings</span><span class="p">,</span><span class="w"> </span><span class="n">Symbolics</span><span class="p">,</span><span class="w"> </span><span class="n">ModelingToolkit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Plots</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="ss">:cooper</span><span class="p">)</span>
+<span class="nd">@variables</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="c"># independent and dependent variables</span>
+<span class="nd">@parameters</span><span class="w"> </span><span class="n">ω</span><span class="w"> </span><span class="n">ωₛ</span><span class="w">      </span><span class="c"># parameters</span>
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Differential</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="c"># define an operator for the differentiation w.r.t. time</span>
+
+<span class="c"># your first ODE, consisting of a single equation, indicated by ~</span>
+<span class="nd">@named</span><span class="w"> </span><span class="n">fol_separate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODESystem</span><span class="p">([</span><span class="n">D</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">x₁</span><span class="p">))</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">-</span><span class="n">ω</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">x₁</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">~</span><span class="n">sin</span><span class="p">(</span><span class="n">ωₛ</span><span class="o">*</span><span class="n">t</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right) =&amp;  - \omega^{2} \mathrm{x_1}\left( t \right) + f\left( t \right) \\
+f\left( t \right) =&amp; \sin\left( t \omega_s \right)
+\end{align}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time (s)&quot;</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="n">ws</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">[</span><span class="mf">0.95</span><span class="p">,</span><span class="w"> </span><span class="mf">0.99</span><span class="p">,</span><span class="w"> </span><span class="mf">1.01</span><span class="p">,</span><span class="w"> </span><span class="mf">1.05</span><span class="p">]</span>
+<span class="w">    </span><span class="n">prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODEProblem</span><span class="p">(</span><span class="n">structural_simplify</span><span class="p">(</span><span class="n">fol_separate</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">x₁</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">(</span><span class="n">x₁</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span>
+<span class="w">        </span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">15.0</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">ω</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">ωₛ</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">ws</span><span class="p">])</span>
+<span class="w">    </span><span class="n">sol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+<span class="w">    </span><span class="n">plot!</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">p</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7acf039575dc44fe98a768fc9697f1775faaec8250acfb2476632f92e72b7e08.svg" src="_images/7acf039575dc44fe98a768fc9697f1775faaec8250acfb2476632f92e72b7e08.svg" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fol_separate</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right) =&amp;  - \omega^{2} \mathrm{x_1}\left( t \right) + f\left( t \right) \\
+f\left( t \right) =&amp; \sin\left( t \omega_s \right)
+\end{align}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@variables</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">](</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="c"># independent and dependent variables</span>
+<span class="nd">@parameters</span><span class="w"> </span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span><span class="c"># parameters</span>
+<span class="c"># k = [k1, k2]</span>
+<span class="c"># m = [m1, m2]</span>
+
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Differential</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="c"># define an operator for the differentiation w.r.t. time</span>
+<span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">D</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">D</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span>
+<span class="n">V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">V</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+ - 0.5 \left( \mathrm{x_1}\left( t \right) \right)^{2} k_1 - 0.5 \left(  - \mathrm{x_1}\left( t \right) + \mathrm{x_2}\left( t \right) \right)^{2} k_2 + 0.5 \left( \frac{dx_1(t)}{dt} \right)^{2} m_1 + 0.5 \left( \frac{dx_2(t)}{dt} \right)^{2} m_2
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Symbolics</span><span class="o">.</span><span class="n">expand_derivatives</span><span class="p">(</span><span class="n">Dx2</span><span class="p">(</span><span class="n">V</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+\mathrm{x_1}\left( t \right) k_1
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">D</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">ddx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">D</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+\mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right) \\
+\mathrm{\frac{d}{d t}}\left( \frac{dx_2(t)}{dt} \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="o">.</span><span class="p">(</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">L</span><span class="p">],</span><span class="w"> </span><span class="n">dx</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+\mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} m_1 \right) &amp; \mathrm{\frac{d}{d t}}\left( \frac{dx_2(t)}{dt} m_2 \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@variables</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">](</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="c"># independent and dependent variables</span>
+<span class="nd">@parameters</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="c"># parameters</span>
+
+<span class="n">Dx1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Differential</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">Dx2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Differential</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span>
+
+<span class="n">Symbolics</span><span class="o">.</span><span class="n">expand_derivatives</span><span class="p">(</span><span class="n">Dx1</span><span class="p">(</span><span class="n">V</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+0
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@variables</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">](</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="c"># independent and dependent variables</span>
+<span class="nd">@parameters</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="c"># parameters</span>
+
+<span class="n">Dx1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Differential</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">Dx2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Differential</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="c">#- k*x[1]*x[2]</span>
+
+<span class="n">Symbolics</span><span class="o">.</span><span class="n">expand_derivatives</span><span class="p">(</span><span class="n">Dx1</span><span class="p">(</span><span class="n">V</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+k \mathrm{x_1}\left( t \right) + k \mathrm{x_2}\left( t \right)
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">eom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D</span><span class="o">.</span><span class="p">(</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">L</span><span class="p">],</span><span class="w"> </span><span class="n">dx</span><span class="p">))</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">L</span><span class="p">],</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+k1 \mathrm{x_1}\left( t \right) + \mathrm{\frac{d}{d t}}\left( m1 \frac{dx_1(t)}{dt} \right) &amp; k1 \mathrm{x_1}\left( t \right) + \mathrm{\frac{d}{d t}}\left( m2 \frac{dx_2(t)}{dt} \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">eom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">simplify</span><span class="o">.</span><span class="p">(</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">expand_derivatives</span><span class="o">.</span><span class="p">(</span><span class="n">eom</span><span class="p">))</span>
+<span class="n">eom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reshape</span><span class="p">(</span><span class="n">eom</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">)</span>
+<span class="c"># size([x[1], x[2]])</span>
+<span class="n">size</span><span class="p">(</span><span class="n">eom</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">eom</span><span class="p">,</span><span class="w"> </span><span class="n">ddx</span><span class="p">)</span>
+
+<span class="n">rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">M</span><span class="o">*</span><span class="n">ddx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">eom</span>
+
+<span class="n">Ma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">M</span><span class="o">*</span><span class="n">ddx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+m1 \mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right) \\
+m2 \mathrm{\frac{d}{d t}}\left( \frac{dx_2(t)}{dt} \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Ma</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">rhs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>m2*Differential(t)(Differential(t)(x[2](t))) ~ -k1*x[1](t)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ddx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">-</span><span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Differential(t)(Differential(t)(x[2](t))) ~ (-k2*(x[2](t) - x[1](t))) / m1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">eqns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">Ma</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">rhs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">Ma</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">rhs</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{align}
+m1 \mathrm{\frac{d}{d t}}\left( \frac{dx_1(t)}{dt} \right) =&amp;  - k1 \mathrm{x_1}\left( t \right) \\
+m2 \mathrm{\frac{d}{d t}}\left( \frac{dx_2(t)}{dt} \right) =&amp;  - k1 \mathrm{x_1}\left( t \right)
+\end{align}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@named</span><span class="w"> </span><span class="n">fol_separate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODESystem</span><span class="p">(</span><span class="n">eqns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">MethodError</span>: isequal(::Term{Real, Base.ImmutableDict{DataType, Any}}, ::Missing) is ambiguous. Candidates:
+  <span class="n">isequal</span><span class="p">(::</span><span class="n">Any</span><span class="p">,</span> <span class="p">::</span><span class="n">Missing</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Base</span> <span class="n">at</span> <span class="n">missing</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">82</span>
+  <span class="n">isequal</span><span class="p">(::</span><span class="n">SymbolicUtils</span><span class="o">.</span><span class="n">Symbolic</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SymbolicUtils</span> <span class="n">at</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ryan</span><span class="o">/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">SymbolicUtils</span><span class="o">/</span><span class="n">v2ZkM</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">types</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">63</span>
+<span class="n">Possible</span> <span class="n">fix</span><span class="p">,</span> <span class="n">define</span>
+  <span class="n">isequal</span><span class="p">(::</span><span class="n">SymbolicUtils</span><span class="o">.</span><span class="n">Symbolic</span><span class="p">,</span> <span class="p">::</span><span class="n">Missing</span><span class="p">)</span>
+
+<span class="ne">Stacktrace</span>:
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">collect_var</span><span class="o">!(</span>states::OrderedCollections.OrderedSet<span class="o">{</span>Any<span class="o">}</span>,<span class="w"> </span>parameters::OrderedCollections.OrderedSet<span class="o">{</span>Any<span class="o">}</span>,<span class="w"> </span>var::Term<span class="o">{</span>Real,<span class="w"> </span>Base.ImmutableDict<span class="o">{</span>DataType,<span class="w"> </span>Any<span class="o">}}</span>,<span class="w"> </span>iv::Missing<span class="o">)</span>
+   <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">399</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">collect_vars</span><span class="o">!(</span>states::OrderedCollections.OrderedSet<span class="o">{</span>Any<span class="o">}</span>,<span class="w"> </span>parameters::OrderedCollections.OrderedSet<span class="o">{</span>Any<span class="o">}</span>,<span class="w"> </span>expr::SymbolicUtils.Mul<span class="o">{</span>Real,<span class="w"> </span>Int64,<span class="w"> </span>Dict<span class="o">{</span>Any,<span class="w"> </span>Number<span class="o">}</span>,<span class="w"> </span>Nothing<span class="o">}</span>,<span class="w"> </span>iv::Missing<span class="o">)</span>
+   <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">378</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">ODESystem</span><span class="p">(</span><span class="n">eqs</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Equation</span><span class="p">},</span> <span class="n">iv</span><span class="p">::</span><span class="n">Nothing</span><span class="p">;</span> <span class="n">kwargs</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">Pairs</span><span class="p">{</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Symbol</span><span class="p">},</span> <span class="n">NamedTuple</span><span class="p">{(:</span><span class="n">name</span><span class="p">,),</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Symbol</span><span class="p">}}})</span>
+   <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">systems</span><span class="o">/</span><span class="n">diffeqs</span><span class="o">/</span><span class="n">odesystem</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">202</span>
+ <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">39</span><span class="p">]:</span><span class="mi">1</span>
+ <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="nb">eval</span>
+   <span class="o">@</span> <span class="o">./</span><span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">./</span><span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODEProblem</span><span class="p">(</span><span class="n">structural_simplify</span><span class="p">(</span><span class="n">fol_separate</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="w"> </span>
+<span class="w">    </span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">10.0</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="n">w</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mf">1.0</span><span class="p">])</span>
+<span class="n">sol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">MethodError</span>: no method matching operation(::Vector{Num})
+<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="p">:</span>
+  <span class="n">operation</span><span class="p">(::</span><span class="n">SymbolicUtils</span><span class="o">.</span><span class="n">Add</span><span class="p">)</span> <span class="n">at</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">SymbolicUtils</span><span class="o">/</span><span class="n">v2ZkM</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">types</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">639</span>
+  <span class="n">operation</span><span class="p">(::</span><span class="n">SymbolicUtils</span><span class="o">.</span><span class="n">Pow</span><span class="p">)</span> <span class="n">at</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">SymbolicUtils</span><span class="o">/</span><span class="n">v2ZkM</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">types</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1013</span>
+  <span class="n">operation</span><span class="p">(::</span><span class="n">Term</span><span class="p">)</span> <span class="n">at</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">SymbolicUtils</span><span class="o">/</span><span class="n">v2ZkM</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">types</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">315</span>
+  <span class="o">...</span>
+
+<span class="ne">Stacktrace</span>:
+  <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">diff2term</span><span class="p">(</span><span class="n">O</span><span class="p">::</span><span class="n">Term</span><span class="p">{</span><span class="n">Vector</span><span class="p">{</span><span class="n">Num</span><span class="p">},</span> <span class="n">Nothing</span><span class="p">})</span>
+    <span class="o">@</span> <span class="n">Symbolics</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">Symbolics</span><span class="o">/</span><span class="n">DCeQ3</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">0</span>
+  <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">(::</span><span class="n">ModelingToolkit</span><span class="o">.</span><span class="n">var</span><span class="s2">&quot;#14#16&quot;</span><span class="p">{</span><span class="n">typeof</span><span class="p">(</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">diff2term</span><span class="p">)})(</span><span class="n">k</span><span class="p">::</span><span class="n">Term</span><span class="p">{</span><span class="n">Vector</span><span class="p">{</span><span class="n">Num</span><span class="p">},</span> <span class="n">Nothing</span><span class="p">})</span>
+    <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">./</span><span class="n">none</span><span class="p">:</span><span class="mi">0</span>
+  <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">iterate</span>
+    <span class="o">@</span> <span class="o">./</span><span class="n">generator</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">47</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+  <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">_all</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">var</span><span class="s2">&quot;#318#320&quot;</span><span class="p">,</span> <span class="n">itr</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">Generator</span><span class="p">{</span><span class="n">Base</span><span class="o">.</span><span class="n">KeySet</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">}},</span> <span class="n">ModelingToolkit</span><span class="o">.</span><span class="n">var</span><span class="s2">&quot;#14#16&quot;</span><span class="p">{</span><span class="n">typeof</span><span class="p">(</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">diff2term</span><span class="p">)}},</span> <span class="c1">#unused#::Colon)</span>
+    <span class="o">@</span> <span class="n">Base</span> <span class="o">./</span><span class="n">reduce</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1156</span>
+  <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="nb">all</span>
+    <span class="o">@</span> <span class="o">./</span><span class="n">reduce</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1152</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+  <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">Dict</span><span class="p">(</span><span class="n">kv</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">Generator</span><span class="p">{</span><span class="n">Base</span><span class="o">.</span><span class="n">KeySet</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">}},</span> <span class="n">ModelingToolkit</span><span class="o">.</span><span class="n">var</span><span class="s2">&quot;#14#16&quot;</span><span class="p">{</span><span class="n">typeof</span><span class="p">(</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">diff2term</span><span class="p">)}})</span>
+    <span class="o">@</span> <span class="n">Base</span> <span class="o">./</span><span class="nb">dict</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">131</span>
+  <span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="n">_varmap_to_vars</span><span class="p">(</span><span class="n">varmap</span><span class="p">::</span><span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Float64</span><span class="p">},</span> <span class="n">varlist</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Term</span><span class="p">{</span><span class="n">Real</span><span class="p">,</span> <span class="n">Base</span><span class="o">.</span><span class="n">ImmutableDict</span><span class="p">{</span><span class="n">DataType</span><span class="p">,</span> <span class="n">Any</span><span class="p">}}};</span> <span class="n">defaults</span><span class="p">::</span><span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">},</span> <span class="n">check</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">toterm</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">diff2term</span><span class="p">))</span>
+    <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">variables</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">77</span>
+  <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="n">varmap_to_vars</span><span class="p">(</span><span class="n">varmap</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}},</span> <span class="n">varlist</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Term</span><span class="p">{</span><span class="n">Real</span><span class="p">,</span> <span class="n">Base</span><span class="o">.</span><span class="n">ImmutableDict</span><span class="p">{</span><span class="n">DataType</span><span class="p">,</span> <span class="n">Any</span><span class="p">}}};</span> <span class="n">defaults</span><span class="p">::</span><span class="n">Dict</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">},</span> <span class="n">check</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">toterm</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">promotetoconcrete</span><span class="p">::</span><span class="n">Bool</span><span class="p">)</span>
+    <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">variables</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">56</span>
+  <span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="n">process_DEProblem</span><span class="p">(</span><span class="n">constructor</span><span class="p">::</span><span class="n">Type</span><span class="p">,</span> <span class="n">sys</span><span class="p">::</span><span class="n">ODESystem</span><span class="p">,</span> <span class="n">u0map</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}},</span> <span class="n">parammap</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Num</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}};</span> <span class="n">implicit_dae</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">du0map</span><span class="p">::</span><span class="n">Nothing</span><span class="p">,</span> <span class="n">version</span><span class="p">::</span><span class="n">Nothing</span><span class="p">,</span> <span class="n">tgrad</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">jac</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">checkbounds</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">sparse</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">simplify</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">linenumbers</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">parallel</span><span class="p">::</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">SerialForm</span><span class="p">,</span> <span class="n">eval_expression</span><span class="p">::</span><span class="n">Bool</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">Pairs</span><span class="p">{</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Symbol</span><span class="p">},</span> <span class="n">NamedTuple</span><span class="p">{(:</span><span class="n">has_difference</span><span class="p">,),</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Bool</span><span class="p">}}})</span>
+    <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">systems</span><span class="o">/</span><span class="n">diffeqs</span><span class="o">/</span><span class="n">abstractodesystem</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">566</span>
+ <span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="p">(</span><span class="n">ODEProblem</span><span class="p">{</span><span class="n">true</span><span class="p">})(</span><span class="n">sys</span><span class="p">::</span><span class="n">ODESystem</span><span class="p">,</span> <span class="n">u0map</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}},</span> <span class="n">tspan</span><span class="p">::</span><span class="n">Tuple</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">Float64</span><span class="p">},</span> <span class="n">parammap</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Num</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}};</span> <span class="n">callback</span><span class="p">::</span><span class="n">Nothing</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">Pairs</span><span class="p">{</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">Union</span><span class="p">{},</span> <span class="n">Tuple</span><span class="p">{},</span> <span class="n">NamedTuple</span><span class="p">{(),</span> <span class="n">Tuple</span><span class="p">{}}})</span>
+    <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">systems</span><span class="o">/</span><span class="n">diffeqs</span><span class="o">/</span><span class="n">abstractodesystem</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">657</span>
+ <span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="p">(</span><span class="n">ODEProblem</span><span class="p">{</span><span class="n">true</span><span class="p">})(</span><span class="n">sys</span><span class="p">::</span><span class="n">ODESystem</span><span class="p">,</span> <span class="n">u0map</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}},</span> <span class="n">tspan</span><span class="p">::</span><span class="n">Tuple</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">Float64</span><span class="p">},</span> <span class="n">parammap</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Num</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}})</span>
+    <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">systems</span><span class="o">/</span><span class="n">diffeqs</span><span class="o">/</span><span class="n">abstractodesystem</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">656</span>
+ <span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="n">ODEProblem</span><span class="p">(::</span><span class="n">ODESystem</span><span class="p">,</span> <span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}},</span> <span class="p">::</span><span class="n">Vararg</span><span class="p">{</span><span class="n">Any</span><span class="p">};</span> <span class="n">kwargs</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">Pairs</span><span class="p">{</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">Union</span><span class="p">{},</span> <span class="n">Tuple</span><span class="p">{},</span> <span class="n">NamedTuple</span><span class="p">{(),</span> <span class="n">Tuple</span><span class="p">{}}})</span>
+    <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">systems</span><span class="o">/</span><span class="n">diffeqs</span><span class="o">/</span><span class="n">abstractodesystem</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">635</span>
+ <span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="n">ODEProblem</span><span class="p">(::</span><span class="n">ODESystem</span><span class="p">,</span> <span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Pair</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}},</span> <span class="p">::</span><span class="n">Vararg</span><span class="p">{</span><span class="n">Any</span><span class="p">})</span>
+    <span class="o">@</span> <span class="n">ModelingToolkit</span> <span class="o">~/.</span><span class="n">julia</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">ModelingToolkit</span><span class="o">/</span><span class="n">f218S</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">systems</span><span class="o">/</span><span class="n">diffeqs</span><span class="o">/</span><span class="n">abstractodesystem</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">635</span>
+ <span class="p">[</span><span class="mi">14</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+    <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">40</span><span class="p">]:</span><span class="mi">1</span>
+ <span class="p">[</span><span class="mi">15</span><span class="p">]</span> <span class="nb">eval</span>
+    <span class="o">@</span> <span class="o">./</span><span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+    <span class="o">@</span> <span class="n">Base</span> <span class="o">./</span><span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="forming-lagrange-equations-in-julia-s-symbolics">
+<h2>Forming Lagrange equations in Julia’s <code class="docutils literal notranslate"><span class="pre">Symbolics</span></code><a class="headerlink" href="#forming-lagrange-equations-in-julia-s-symbolics" title="Link to this heading">#</a></h2>
+<p>Back to the goal at hand, I want to build some an <em>exact</em> differential equations, but integrate them approximately with a numerical integration tool. My <em>exact</em> differential equations are the <a class="reference external" href="https://en.wikipedia.org/wiki/Lagrangian_mechanics">Lagrange equations</a></p>
+<p><span class="math notranslate nohighlight">\(\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0\)</span></p>
+<p>where</p>
+<p><span class="math notranslate nohighlight">\(L = T - V\)</span></p>
+<p><span class="math notranslate nohighlight">\(T = \sum_{i=1}^{N}\frac{1}{2}m_iv_i^2= \sum_{i=1}^{N}\left[\mathrm{kinetic~energy}_i\right]\)</span></p>
+<p><span class="math notranslate nohighlight">\(V = \sum_{i=1}^{N}\left[\mathrm{potential~energy}_i\right]\)</span></p>
+</section>
+<section id="the-n-body-pendulum-kinetic-energy">
+<h2>The N-body pendulum kinetic energy<a class="headerlink" href="#the-n-body-pendulum-kinetic-energy" title="Link to this heading">#</a></h2>
+<p>Here, I wanted to extend the double pendulum to <strong>N</strong>-body pendulums. The kinetic energy is the sum of the individual kinetic energies</p>
+<p><span class="math notranslate nohighlight">\(T = \sum_{i=1}^{N}\frac{1}{2}m_iv_i^2\)</span></p>
+<p>where</p>
+<p><span class="math notranslate nohighlight">\(v_i = \sum_{j=1}^{i} L_j\dot{\theta}_j(\cos\theta_j\hat{i} + \sin\theta_j\hat{j})\)</span></p>
+<p>expanding this squared sum of kinetic energies I get</p>
+<p><span class="math notranslate nohighlight">\(T = \sum_{i=1}^N\frac{1}{2}m_iL_i\dot{\theta}_i\sum_{j=1}^{i}L_j\dot{\theta}_j\cos(\theta_i - \theta_j)\)</span></p>
+</section>
+<section id="the-n-body-pendulum-potential-energy">
+<h2>The N-body pendulum potential energy<a class="headerlink" href="#the-n-body-pendulum-potential-energy" title="Link to this heading">#</a></h2>
+<p>The potential energy is the height<span class="math notranslate nohighlight">\(\times\)</span>weight of the objects. Taking the base of the first body as <span class="math notranslate nohighlight">\(h=0~m\)</span>, each pendulum hangs downward at</p>
+<p><span class="math notranslate nohighlight">\(h_i = \sum_{j=1}^i -L_i\cos\theta_i\)</span></p>
+<p>So the potential energy is</p>
+<p><span class="math notranslate nohighlight">\(V = \sum_{i=1}^{N}m_igh_i = \sum_{i=1}^{N}m_ig\sum_{j=1}^i -L_i\cos\theta_i\)</span></p>
+</section>
+<section id="verify-the-method-with-2-bodies">
+<h2>Verify the method with 2 bodies<a class="headerlink" href="#verify-the-method-with-2-bodies" title="Link to this heading">#</a></h2>
+<p>Before jumping into &gt;3 body-pendulums, I built the solution for the double-pendulum in <code class="docutils literal notranslate"><span class="pre">Symbolics</span></code>. The process takes five steps:</p>
+<ol class="arabic simple">
+<li><p>define the variables, <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">a[1:N](t)</span> <span class="pre">L[1:N]</span> <span class="pre">m[1:N]</span> <span class="pre">g</span></code> as time, <span class="math notranslate nohighlight">\(\theta_i\)</span>, <span class="math notranslate nohighlight">\(L_i\)</span>, <span class="math notranslate nohighlight">\(m_i\)</span> and <span class="math notranslate nohighlight">\(g=9.81~m/s^2\)</span></p></li>
+<li><p>build the Lagrange, <span class="math notranslate nohighlight">\(L = T-V = \sum_{i=1}^{N}(T_i-V_i)\)</span></p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">.jacobian</span></code> and <code class="docutils literal notranslate"><span class="pre">D.()</span></code> to form the Lagrange equations</p></li>
+<li><p>replace <span class="math notranslate nohighlight">\(\theta_i(t)\)</span> and <span class="math notranslate nohighlight">\(\dot{\theta}_i\)</span> with callable variables, <code class="docutils literal notranslate"><span class="pre">q</span></code> and <code class="docutils literal notranslate"><span class="pre">dq</span></code></p></li>
+<li><p>build two functions for evaluation, <span class="math notranslate nohighlight">\(\mathbf{M}(\theta_i,m_i,L_i)\)</span> and <span class="math notranslate nohighlight">\(\mathbf{rhs}(\theta_i,~\dot{\theta}_i,m_i,L_i,g)\)</span> <em>where the acceleration is</em> <span class="math notranslate nohighlight">\(\mathbf{\ddot{q}}= \mathbf{M}^{-1}\mathbf{rhs}\)</span></p></li>
+</ol>
+<p>The full <span class="math notranslate nohighlight">\(L = T-V\)</span> for the double pendulum is calculated as such.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@variables</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">](</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="n">m</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">xi</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">xi</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">x</span><span class="p">]</span>
+<span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">D</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">xi</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">x</span><span class="p">]</span>
+
+<span class="n">Lsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">dx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">dx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span>
+
+<span class="n">dLx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">Lsum</span><span class="p">],</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="n">DLdx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">Lsum</span><span class="p">],</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span>
+
+<span class="n">D</span><span class="o">.</span><span class="p">(</span><span class="n">DLdx</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dLx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+k \left( 2 \mathrm{x{_1}}\left( t \right) - 2 \mathrm{x{_2}}\left( t \right) \right) + 2 k \mathrm{x{_1}}\left( t \right) + \mathrm{\frac{d}{d t}}\left( m \frac{dx{_1}(t)}{dt} \right) &amp; k \left(  - 2 \mathrm{x{_1}}\left( t \right) + 2 \mathrm{x{_2}}\left( t \right) \right) + \mathrm{\frac{d}{d t}}\left( m \frac{dx{_2}(t)}{dt} \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@variables</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">](</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="n">k1</span><span class="w"> </span><span class="n">k2</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="n">g</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">xi</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">xi</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">x</span><span class="p">]</span>
+<span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">D</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">xi</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">x</span><span class="p">]</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">k2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+k1 \\
+k2 \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Lsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">dx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">dx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span>
+
+<span class="n">dLx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">Lsum</span><span class="p">],</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="n">DLdx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">Lsum</span><span class="p">],</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span>
+
+<span class="n">D</span><span class="o">.</span><span class="p">(</span><span class="n">DLdx</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dLx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+k2 \left( 2 \mathrm{x{_1}}\left( t \right) - 2 \mathrm{x{_2}}\left( t \right) \right) + 2 k1 \mathrm{x{_1}}\left( t \right) + \mathrm{\frac{d}{d t}}\left( m \frac{dx{_1}(t)}{dt} \right) &amp; k2 \left(  - 2 \mathrm{x{_1}}\left( t \right) + 2 \mathrm{x{_2}}\left( t \right) \right) + \mathrm{\frac{d}{d t}}\left( m \frac{dx{_2}(t)}{dt} \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="nd">@variables</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">](</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="n">L1</span><span class="w"> </span><span class="n">L2</span><span class="w"> </span><span class="n">m1</span><span class="w"> </span><span class="n">m2</span><span class="w"> </span><span class="n">g</span>
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Differential</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">ai</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">a</span><span class="p">]</span>
+<span class="n">da</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">D</span><span class="p">(</span><span class="n">ai</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">a</span><span class="p">]</span>
+<span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">L1</span><span class="p">,</span><span class="w"> </span><span class="n">L2</span><span class="p">]</span>
+<span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">m1</span><span class="p">,</span><span class="w"> </span><span class="n">m2</span><span class="p">]</span>
+
+<span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+1 &amp; 0 \\
+0 &amp; 1 \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Vterms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">g</span><span class="o">*</span><span class="n">m</span><span class="p">[</span><span class="nb">im</span><span class="p">]</span><span class="o">*</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">im</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">im</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+L1 g m1 \cos\left( \mathrm{a{_1}}\left( t \right) \right) \\
+L1 g m2 \cos\left( \mathrm{a{_1}}\left( t \right) \right) \\
+L2 g m2 \cos\left( \mathrm{a{_2}}\left( t \right) \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Tterms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="nb">im</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">D</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="n">D</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">im</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">im</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">im</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+\frac{1}{2} \left( \frac{da{_1}(t)}{dt} \right)^{2} L1^{2} m1 \\
+\frac{1}{2} \left( \frac{da{_1}(t)}{dt} \right)^{2} L1^{2} m2 \\
+\frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \frac{da{_2}(t)}{dt} \\
+\frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \frac{da{_2}(t)}{dt} \\
+\frac{1}{2} \left( \frac{da{_2}(t)}{dt} \right)^{2} L2^{2} m2 \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Lsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">+</span><span class="p">(</span><span class="n">Tterms</span><span class="o">...</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">+</span><span class="p">(</span><span class="n">Vterms</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{equation}
+\frac{1}{2} \left( \frac{da{_1}(t)}{dt} \right)^{2} L1^{2} m1 + \frac{1}{2} \left( \frac{da{_1}(t)}{dt} \right)^{2} L1^{2} m2 + \frac{1}{2} \left( \frac{da{_2}(t)}{dt} \right)^{2} L2^{2} m2 - L1 g m1 \cos\left( \mathrm{a{_1}}\left( t \right) \right) - L1 g m2 \cos\left( \mathrm{a{_1}}\left( t \right) \right) - L2 g m2 \cos\left( \mathrm{a{_2}}\left( t \right) \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \frac{da{_2}(t)}{dt} + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \frac{da{_2}(t)}{dt}
+\end{equation}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># # @register Lsum(a::AbstractVector, da::AbstractVector)</span>
+<span class="c"># for im in range(1, N)</span>
+<span class="c">#     for i in range(1, im)</span>
+<span class="c">#         Lsum += g*m[im]*L[i]*cos(a[i])</span>
+<span class="c">#         for j in range(1, im)</span>
+<span class="c">#             Lsum += m[im]/2*L[i]*L[j]*D(a[i])*D(a[j])*cos(a[i] - a[j]) </span>
+<span class="c">#         end</span>
+<span class="c">#     end</span>
+<span class="c"># end</span>
+<span class="c"># Lsum</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, finding the <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial q_i}\)</span> terms is a <code class="docutils literal notranslate"><span class="pre">.jacobian</span></code> using the defined angles, <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dLa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">Lsum</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+L1 g m1 \sin\left( \mathrm{a{_1}}\left( t \right) \right) + L1 g m2 \sin\left( \mathrm{a{_1}}\left( t \right) \right) - \frac{1}{2} L1 L2 m2 \sin\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \frac{da{_2}(t)}{dt} + \frac{1}{2} L1 L2 m2 \sin\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \frac{da{_2}(t)}{dt} &amp; L2 g m2 \sin\left( \mathrm{a{_2}}\left( t \right) \right) + \frac{1}{2} L1 L2 m2 \sin\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \frac{da{_2}(t)}{dt} - \frac{1}{2} L1 L2 m2 \sin\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \frac{da{_2}(t)}{dt} \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<p>Next, I define the derivative, <span class="math notranslate nohighlight">\(\dot{\theta}_i\)</span> as <code class="docutils literal notranslate"><span class="pre">da</span></code> and take the <code class="docutils literal notranslate"><span class="pre">.jacobian</span></code> to find <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \dot{q}_i}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dLda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expand_derivatives</span><span class="o">.</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="p">(</span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">Lsum</span><span class="p">],</span><span class="w"> </span><span class="n">da</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+L1^{2} m1 \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) + L1^{2} m2 \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) - \frac{1}{2} L1 L2 m2 \left(  - \frac{da{_1}(t)}{dt} + \frac{da{_2}(t)}{dt} \right) \sin\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \frac{da{_2}(t)}{dt} - \frac{1}{2} L1 L2 m2 \left(  - \frac{da{_2}(t)}{dt} + \frac{da{_1}(t)}{dt} \right) \sin\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \frac{da{_2}(t)}{dt} &amp; L2^{2} m2 \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) - \frac{1}{2} L1 L2 m2 \left(  - \frac{da{_1}(t)}{dt} + \frac{da{_2}(t)}{dt} \right) \sin\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \frac{da{_1}(t)}{dt} - \frac{1}{2} L1 L2 m2 \left(  - \frac{da{_2}(t)}{dt} + \frac{da{_1}(t)}{dt} \right) \sin\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \frac{da{_1}(t)}{dt} \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<p>Now, I have the components to assemble, simplify and display the Lagrange equations of motion,</p>
+<p><span class="math notranslate nohighlight">\(\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}_i}\right) - \frac{\partial L}{\partial q_i} = 0\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">eoms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">simplify</span><span class="p">(</span><span class="n">dLda</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dLa</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+L1^{2} \left( m1 + m2 \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) - L1 g m1 \sin\left( \mathrm{a{_1}}\left( t \right) \right) - L1 g m2 \sin\left( \mathrm{a{_1}}\left( t \right) \right) - \frac{1}{2} \left( \frac{da{_2}(t)}{dt} \right)^{2} L1 L2 m2 \sin\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) + \frac{1}{2} \left( \frac{da{_2}(t)}{dt} \right)^{2} L1 L2 m2 \sin\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) \\
+L2^{2} m2 \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) - L2 g m2 \sin\left( \mathrm{a{_2}}\left( t \right) \right) - \frac{1}{2} \left( \frac{da{_1}(t)}{dt} \right)^{2} L1 L2 m2 \sin\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) + \frac{1}{2} \left( \frac{da{_1}(t)}{dt} \right)^{2} L1 L2 m2 \sin\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<p>If these were linear equations of motion, I could use the CAS commands to find the exact solutions, but these are nonlinear <a class="reference internal" href="day_06.html"><span class="std std-doc">chaotic</span></a> equations. I need the</p>
+<ul class="simple">
+<li><p>mass matrix, <span class="math notranslate nohighlight">\(\mathbf{M} = \frac{\partial eom_i}{\partial \ddot{\theta}_i}\)</span></p></li>
+<li><p>right-hand side equations, everything else i.e. <code class="docutils literal notranslate"><span class="pre">M*dda</span> <span class="pre">-</span> <span class="pre">eoms</span></code></p></li>
+</ul>
+<p>Here, I define the <span class="math notranslate nohighlight">\(\ddot{\theta}_i\)</span> vector and define <span class="math notranslate nohighlight">\(\mathbf{M}\)</span> as <code class="docutils literal notranslate"><span class="pre">M</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">D</span><span class="p">(</span><span class="n">dai</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">dai</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">da</span><span class="p">]</span>
+
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Symbolics</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">eoms</span><span class="p">,</span><span class="w"> </span><span class="n">dda</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{cc}
+L1^{2} \left( m1 + m2 \right) &amp; \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \\
+\frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) &amp; L2^{2} m2 \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<p>Now, I can subtract the <code class="docutils literal notranslate"><span class="pre">eoms</span></code> from <code class="docutils literal notranslate"><span class="pre">M*dda</span></code> to get the right-hand side equations, <code class="docutils literal notranslate"><span class="pre">M*dda</span> <span class="pre">-</span> <span class="pre">eoms</span></code>. Then, build substitute in callable variables <code class="docutils literal notranslate"><span class="pre">q</span></code> and <code class="docutils literal notranslate"><span class="pre">dq</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">simplify</span><span class="o">.</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">dda</span><span class="p">,</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+L1^{2} \left( m1 + m2 \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) \\
+L2^{2} m2 \mathrm{\frac{d}{d t}}\left( \frac{da{_2}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) + \frac{1}{2} L1 L2 m2 \cos\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \mathrm{\frac{d}{d t}}\left( \frac{da{_1}(t)}{dt} \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">simplify</span><span class="o">.</span><span class="p">(</span><span class="n">eoms</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">M</span><span class="o">*</span><span class="n">dda</span><span class="p">,</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+ - L1 g m1 \sin\left( \mathrm{a{_1}}\left( t \right) \right) - L1 g m2 \sin\left( \mathrm{a{_1}}\left( t \right) \right) - \frac{1}{2} \left( \frac{da{_2}(t)}{dt} \right)^{2} L1 L2 m2 \sin\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) + \frac{1}{2} \left( \frac{da{_2}(t)}{dt} \right)^{2} L1 L2 m2 \sin\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) \\
+ - L2 g m2 \sin\left( \mathrm{a{_2}}\left( t \right) \right) - \frac{1}{2} \left( \frac{da{_1}(t)}{dt} \right)^{2} L1 L2 m2 \sin\left(  - \mathrm{a{_2}}\left( t \right) + \mathrm{a{_1}}\left( t \right) \right) + \frac{1}{2} \left( \frac{da{_1}(t)}{dt} \right)^{2} L1 L2 m2 \sin\left(  - \mathrm{a{_1}}\left( t \right) + \mathrm{a{_2}}\left( t \right) \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@variables</span><span class="w"> </span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">]</span>
+<span class="nd">@variables</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">]</span>
+<span class="n">Mq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">simplify</span><span class="o">.</span><span class="p">(</span><span class="n">substitute</span><span class="o">.</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="w"> </span>
+<span class="w">        </span><span class="p">(</span><span class="kt">Dict</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)),)))</span>
+
+<span class="n">rhsdq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">simplify</span><span class="o">.</span><span class="p">(</span><span class="n">substitute</span><span class="o">.</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="n">dda</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">eoms</span><span class="p">,</span><span class="w"> </span>
+<span class="w">        </span><span class="p">(</span><span class="kt">Dict</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)),)))</span>
+<span class="n">rhsq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">simplify</span><span class="o">.</span><span class="p">(</span><span class="n">substitute</span><span class="o">.</span><span class="p">(</span><span class="n">rhsdq</span><span class="p">,</span><span class="w"> </span>
+<span class="w">        </span><span class="p">(</span><span class="kt">Dict</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">)),)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\left[
+\begin{array}{c}
+L1 g m1 \sin\left( q{_1} \right) + L1 g m2 \sin\left( q{_1} \right) + L1 L2 m2 \left( \frac{1}{2} \cos\left(  - q{_2} + q{_1} \right) + \frac{1}{2} \cos\left(  - q{_1} + q{_2} \right) \right) \mathrm{\frac{d}{d t}}\left( dq{_2} \right) - \frac{1}{2} dq{_2}^{2} L1 L2 m2 \sin\left(  - q{_2} + q{_1} \right) + \frac{1}{2} dq{_2}^{2} L1 L2 m2 \sin\left(  - q{_1} + q{_2} \right) - \frac{1}{2} L1 L2 m2 \cos\left(  - q{_2} + q{_1} \right) \mathrm{\frac{d}{d t}}\left( dq{_2} \right) - \frac{1}{2} L1 L2 m2 \cos\left(  - q{_1} + q{_2} \right) \mathrm{\frac{d}{d t}}\left( dq{_2} \right) \\
+L2 g m2 \sin\left( q{_2} \right) + L1 L2 m2 \left( \frac{1}{2} \cos\left(  - q{_2} + q{_1} \right) + \frac{1}{2} \cos\left(  - q{_1} + q{_2} \right) \right) \mathrm{\frac{d}{d t}}\left( dq{_1} \right) + \frac{1}{2} dq{_1}^{2} L1 L2 m2 \sin\left(  - q{_2} + q{_1} \right) - \frac{1}{2} dq{_1}^{2} L1 L2 m2 \sin\left(  - q{_1} + q{_2} \right) - \frac{1}{2} L1 L2 m2 \cos\left(  - q{_2} + q{_1} \right) \mathrm{\frac{d}{d t}}\left( dq{_1} \right) - \frac{1}{2} L1 L2 m2 \cos\left(  - q{_1} + q{_2} \right) \mathrm{\frac{d}{d t}}\left( dq{_1} \right) \\
+\end{array}
+\right]
+\end{equation}\end{split}\]</div>
+</div>
+</div>
+<p>Finally, I can <code class="docutils literal notranslate"><span class="pre">build_function</span></code> and evaluate results.</p>
+<blockquote>
+<div><p><strong>Note</strong>: This is where I hit the world-age issue. If I try to include the <code class="docutils literal notranslate"><span class="pre">eval</span></code> function in the pendulum differential equations, Then, I get a</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">M_N2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">build_function</span><span class="p">(</span><span class="n">Mq</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Val</span><span class="p">{</span><span class="kt">false</span><span class="p">})[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RuntimeGeneratedFunction(#=in Symbolics=#, #=using Symbolics=#, :((q, ˍ₋arg2, ˍ₋arg3)-&gt;begin
+          #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:349 =#
+          #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:350 =#
+          #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:351 =#
+          begin
+              m1 = #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:210 =# @inbounds(ˍ₋arg2[1])
+              m2 = #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:210 =# @inbounds(ˍ₋arg2[2])
+              L1 = #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:210 =# @inbounds(ˍ₋arg3[1])
+              L2 = #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:210 =# @inbounds(ˍ₋arg3[2])
+              begin
+                  #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:444 =#
+                  (SymbolicUtils.Code.create_array)(typeof(ˍ₋arg2), nothing, Val{2}(), Val{(2, 2)}(), (*)((^)(L1, 2), (+)(m1, m2)), (*)((*)((*)(L1, L2), m2), (+)((*)(1//2, (cos)((+)((*)(-1, (getindex)(q, 2)), (getindex)(q, 1)))), (*)(1//2, (cos)((+)((*)(-1, (getindex)(q, 1)), (getindex)(q, 2)))))), (*)((*)((*)(L1, L2), m2), (+)((*)(1//2, (cos)((+)((*)(-1, (getindex)(q, 2)), (getindex)(q, 1)))), (*)(1//2, (cos)((+)((*)(-1, (getindex)(q, 1)), (getindex)(q, 2)))))), (*)(m2, (^)(L2, 2)))
+              end
+          end
+      end))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rhs_N2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">build_function</span><span class="p">(</span><span class="n">rhsq</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">dq</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="n">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Val</span><span class="p">{</span><span class="kt">false</span><span class="p">})[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RuntimeGeneratedFunction(#=in Symbolics=#, #=using Symbolics=#, :((q, dq, ˍ₋arg3, ˍ₋arg4, g)-&gt;begin
+          #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:349 =#
+          #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:350 =#
+          #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:351 =#
+          begin
+              m1 = #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:210 =# @inbounds(ˍ₋arg3[1])
+              m2 = #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:210 =# @inbounds(ˍ₋arg3[2])
+              L1 = #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:210 =# @inbounds(ˍ₋arg4[1])
+              L2 = #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:210 =# @inbounds(ˍ₋arg4[2])
+              begin
+                  #= /home/ryan/.julia/packages/SymbolicUtils/v2ZkM/src/code.jl:444 =#
+                  (SymbolicUtils.Code.create_array)(typeof(ˍ₋arg3), nothing, Val{1}(), Val{(2,)}(), (+)((+)((+)((+)((+)((+)((*)((*)((*)(L1, g), m1), (sin)((getindex)(q, 1))), (*)((*)((*)(L1, g), m2), (sin)((getindex)(q, 1)))), (*)((*)((*)((*)(L1, L2), m2), (+)((*)(1//2, (cos)((+)((*)(-1, (getindex)(q, 2)), (getindex)(q, 1)))), (*)(1//2, (cos)((+)((*)(-1, (getindex)(q, 1)), (getindex)(q, 2)))))), (Differential(t))((getindex)(dq, 2)))), (*)((*)((*)((*)((*)(-1//2, L1), L2), m2), (^)((getindex)(dq, 2), 2)), (sin)((+)((*)(-1, (getindex)(q, 2)), (getindex)(q, 1))))), (*)((*)((*)((*)((*)(1//2, L1), L2), m2), (^)((getindex)(dq, 2), 2)), (sin)((+)((*)(-1, (getindex)(q, 1)), (getindex)(q, 2))))), (*)((*)((*)((*)((*)(-1//2, L1), L2), m2), (cos)((+)((*)(-1, (getindex)(q, 2)), (getindex)(q, 1)))), (Differential(t))((getindex)(dq, 2)))), (*)((*)((*)((*)((*)(-1//2, L1), L2), m2), (cos)((+)((*)(-1, (getindex)(q, 1)), (getindex)(q, 2)))), (Differential(t))((getindex)(dq, 2)))), (+)((+)((+)((+)((+)((*)((*)((*)(L2, g), m2), (sin)((getindex)(q, 2))), (*)((*)((*)((*)(L1, L2), m2), (+)((*)(1//2, (cos)((+)((*)(-1, (getindex)(q, 2)), (getindex)(q, 1)))), (*)(1//2, (cos)((+)((*)(-1, (getindex)(q, 1)), (getindex)(q, 2)))))), (Differential(t))((getindex)(dq, 1)))), (*)((*)((*)((*)((*)(1//2, L1), L2), m2), (^)((getindex)(dq, 1), 2)), (sin)((+)((*)(-1, (getindex)(q, 2)), (getindex)(q, 1))))), (*)((*)((*)((*)((*)(-1//2, L1), L2), m2), (^)((getindex)(dq, 1), 2)), (sin)((+)((*)(-1, (getindex)(q, 1)), (getindex)(q, 2))))), (*)((*)((*)((*)((*)(-1//2, L1), L2), m2), (cos)((+)((*)(-1, (getindex)(q, 2)), (getindex)(q, 1)))), (Differential(t))((getindex)(dq, 1)))), (*)((*)((*)((*)((*)(-1//2, L1), L2), m2), (cos)((+)((*)(-1, (getindex)(q, 1)), (getindex)(q, 2)))), (Differential(t))((getindex)(dq, 1)))))
+              end
+          end
+      end))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rhs_N2</span><span class="p">([</span><span class="nb">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="mf">9.81</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Float64}:
+ 19.62
+  9.81
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">M_N2</span><span class="p">([</span><span class="nb">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">\</span><span class="n">rhs_N2</span><span class="p">([</span><span class="nb">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="mf">9.81</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Float64}:
+ 9.81
+ 0.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">N2pendulum</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">)</span>
+<span class="w">    </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">9.81</span>
+<span class="w">    </span><span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">[</span><span class="mi">3</span><span class="o">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="w">    </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="w">    </span><span class="n">dq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">3</span><span class="o">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="w">    </span><span class="n">du</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+<span class="w">    </span><span class="n">du</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">[</span><span class="mi">3</span><span class="o">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="w">    </span><span class="n">M_tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">M_N2</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">)</span>
+<span class="w">    </span><span class="n">rhs_tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rhs_N2</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">dq</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">)</span>
+<span class="w">    </span><span class="n">du</span><span class="p">[</span><span class="mi">3</span><span class="o">:</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">M_tmp</span><span class="o">\</span><span class="n">rhs_tmp</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">du</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N2pendulum (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N2pendulum</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">],</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4-element Vector{Float64}:
+  0.0
+  0.0
+ -3.003446274908884e-16
+  9.81
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Plots</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="ss">:cooper</span><span class="p">)</span>
+<span class="n">tspan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">];</span>
+<span class="n">prob1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODEProblem</span><span class="p">(</span><span class="n">N2pendulum</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">tspan</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span>
+<span class="n">sol1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="n">prob1</span><span class="p">)</span>
+<span class="n">prob2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ODEProblem</span><span class="p">(</span><span class="n">N2pendulum</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">2.001</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">tspan</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span>
+<span class="n">sol2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="n">prob2</span><span class="p">)</span>
+
+<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">()</span>
+
+<span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">tspan</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="mi">500</span><span class="p">)</span>
+<span class="n">a21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">sol1</span><span class="p">(</span><span class="n">ti</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">ti</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">t</span><span class="p">]</span>
+<span class="n">a22</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">sol2</span><span class="p">(</span><span class="n">ti</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">ti</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">t</span><span class="p">]</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">a21</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">heta_2(0) = 2.000$&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">a22</span><span class="p">,</span><span class="w">  </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">heta_2(0) = 2.001$&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;time (s)&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">heta_2$&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4786fe4c70317f4ae427dd69583a36c0e9ee9b334af65a6df1690cd2c6426f08.svg" src="_images/4786fe4c70317f4ae427dd69583a36c0e9ee9b334af65a6df1690cd2c6426f08.svg" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.11"
+        },
+        kernelOptions: {
+            name: "julia-1.11",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.11'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-the-computer-do-the-hard-work">Let the computer do the hard work</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enter-computer-algebra-systems">Enter Computer Algebra Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#julia-s-cas-using-symbolics">Julia’s CAS <code class="docutils literal notranslate"><span class="pre">using</span> <span class="pre">Symbolics</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forming-lagrange-equations-in-julia-s-symbolics">Forming Lagrange equations in Julia’s <code class="docutils literal notranslate"><span class="pre">Symbolics</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-n-body-pendulum-kinetic-energy">The N-body pendulum kinetic energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-n-body-pendulum-potential-energy">The N-body pendulum potential energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-method-with-2-bodies">Verify the method with 2 bodies</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
